@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Profile</title>
+	<link href="{{url_for('static', filename='page.css')}}" rel="stylesheet" >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" >
+	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="left">
+        <img src="{{ url_for('userava')}}" 
+        alt="user" width="100">
+        <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">
+         <p><input type="file" name="file">
+         <p><input type="submit" value="Загрузить">
+       </form>
+    </div>
+    <div class="right">
+      <form action="" method="POST">
+         {{ form.hidden_tag() }}
+         <div class="info">
+            <h3>{{ name }}
+            <p><input value="{{ name }}" {{ form.name()}}</p> </h3>
+            <div class="info_data">
+                 <div class="data">
+                    <h4>Email</h4>
+                    <p>{{ email }}</p>
+                    <p><input value="{{ email }}" {{ form.email()}}</p>
+                 </div>
+                 <div class="data">
+                   <h4>Телефон</h4>
+                    <p>{{ phone }}</p>
+                    <p><input value="{{ phone }}" {{form.phone()}} </p>
+                </div>
+                <div class="data">
+                <h5>Адрес</h5>
+                <p>{{ adress }}</p>
+                <p><input value="{{ adress }}" {{form.adress()}} </p>
+              </div>
+              <div class="data">
+               <h5>Любимые праздники</h5>
+                <p>{{ events }}</p>
+                <p><input value="{{ events }}" {{form.events()}} </p>
+              </div>
+            </div>
+         </div>
+         <p><button type="submit"> Подтвердить изменения</button></p>
+      </form>
+        <p><a href="{{url_for('userPage')}}">Вернуться</a></p>
+        <p><button>Режим администратора</button>
+        <p><a href="{{url_for('logout')}}">Выйти из аккаунта</a></p>
+
+        
+        
+    </div>
+</div>
+
+<!-- <div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+  </footer> -->
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

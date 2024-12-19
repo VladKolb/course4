@@ -1,0 +1,35 @@
+{% extends "menuBarBase.html"%}
+
+{% block text %}
+   
+<form action="{{url_for('packsPage', event_id = event_id)}}" method="POST">
+   <p><button class="btn btn-success" type="submit" style="width: 160px;"> Назад </button></p>
+</form>
+
+<!-- Еще блоки информации -->
+   {% for product in info.prod %}
+   <div class="col-md-6">
+     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+         <strong class="d-inline-block mb-2 text-primary-emphasis">
+            {{product.product_type}}
+            {{product.quantity}} шт.
+         </strong>
+          <h3 class="mb-0">{{product.product_name}}</h3>
+          <p class="my-2">Цена: {{product.product_price}} рублей </p>
+        </div>
+        {% if session.admin_mode %}
+
+        <form action="{{url_for('deleteFromPack', pack_id = pack_id, product_id = product.product_id, quantity = product.quantity, event_id = event_id)}}" method="POST">
+           <p><button class="btn btn-danger" type="submit" style="width: 160px;"> Убрать из пака </button></p>
+        </form>
+        {% endif %}
+      </div>
+   </div>
+   <!-- Конец блоков информации -->
+   {% endfor %}
+</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'menuBarBase.html '%}
+
+{% block text %}
+
+<div class="col-md-7 col-lg-8">
+   <h4 class="mb-3">Оформление столика в {{restoraunt_name}}</h4>
+     <form action="" method="POST">
+       {{form.hidden_tag()}}
+       <div class="row g-3">
+         <div class="col-sm-6">
+           <label for="" class="form-label">Имя  Фамилия Отчество</label>
+           <input class="form-control" {{ form.t_order_fio() }}
+         </div>
+         <div class="col-sm-6">
+           <label for="" class="form-label">На какое количество человек</label>
+           <input class="form-control" {{ form.t_order_nop() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label"> На какую дату</label>
+           <input class="form-control" {{ form.t_order_date() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label">На какое время</label>
+           <input class="form-control" {{ form.t_order_time() }}
+         </div>
+         <div class="col-12">
+            <label for="" class="form-label">Email <span class="text-body-secondary">(на него будет осуществляться отправка чека)</span></label>
+            <input class="form-control" {{ form.email() }}
+         </div>
+
+       <button type="submit"> Заказать </button>
+     </form>
+   </div>
+ </div>
+</div>
+
+{% endblock %}

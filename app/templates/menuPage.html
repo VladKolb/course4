@@ -1,0 +1,70 @@
+{% extends "menuBarBase.html" %}
+
+{% block text %}
+<div class="container">
+  <div class="row">
+    <!-- Остальной контент в левой части экрана -->
+    <div class="col-12 col-md-10">
+      <form class="mb-3" action="" method="POST" style="width: 200px; margin-left: 10px;">
+        <input class="form-control" placeholder="Поиск..." {{ form.search() }}  
+        <button class="btn btn-light rounded-pill px-3" type="submit" name="submit" value="submit" style="margin-bottom: 10px;">Найти</button>
+      </form>
+
+      {% if session.admin_mode %}
+        <a href="{{url_for('addMenu', event_id = event_id, number_of_people = number_of_people, page = information.page)}}"><p><button style="margin-left: 10px;">Добавить позицию в меню</button></p></a>
+      {% endif %}
+
+      <h1>
+        <!-- Формы для сортировки -->
+        <form action="{{url_for('menu', event_id=event_id, number_of_people=number_of_people)}}" method="POST">
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="price" value="TopPrice">Cортировать по убыванию цены</button>
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="price" value="BottomPrice">Cортировать по возрастанию цены</button>
+        </form>
+        <p>
+          <form action="{{url_for('menu', event_id=event_id, number_of_people=number_of_people)}}" method="POST">
+            <button class="btn btn-light rounded-pill px-3" type="submit" name="time" value="TopTime">Cортировать по времени готовки(быстро - долго)</button>
+            <button class="btn btn-light rounded-pill px-3" type="submit" name="time" value="BottomTime">Cортировать по времени готовки(долго - быстро)</button>
+          </form>
+        </p>
+      </h1>
+
+      {% for menu in information.menu %}
+        <!-- Блок с информацией о блюде -->
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary-emphasis">{{menu.dish_type}}</strong>
+            <h3 class="mb-0">{{menu.dish}}</h3>
+            <div class="mb-1 text-muted">Время готовки: {{menu.cooking_time}} минут, Цена покупки: {{menu.dish_price}} руб
+            </div>
+            <p class="card-text mb-auto">{{menu.ingredients}}</p>
+            <a href="{{url_for('addToCart', name=menu.dish, price=menu.dish_price, id=menu.dish_id, page=information.page)}}">Заказать блюдо</a>
+            <a href="{{ menu.how_to_cook }}">Посмотреть рецепт</a>
+          </div>
+          {% if session.admin_mode %}
+          <form action="{{ url_for('deleteMenu', event_id=event_id, number_of_people=number_of_people, dish_id=menu.dish_id, page=information.page) }}" method="POST">
+            <p><button type="submit" style="width: 160px;"> - </button></p>
+          </form>
+          <a href="{{ url_for('updateMenu', event_id=event_id, number_of_people=number_of_people, dish_id=menu.dish_id, page=information.page) }}"><button>Изменить информацию</button></a>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {% with messages = get_flashed_messages() %}
+        <!-- Ваши существующие блоки для отображения сообщений -->
+      {% endwith %}
+    </div>
+
+    <!-- Форма с чекбоксами в правой части экрана -->
+    <form action="{{url_for('menu', event_id=event_id, number_of_people=number_of_people)}}" method="POST" class="col-12 col-md-2">
+      {% for filter in information.filters %}
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="{{filter}}" id="{{filter}}" {% if filter in selected_filters %} checked {% endif %}>
+        <label class="form-check-label" for="{{filter}}">{{filter}}</label>
+      </div>
+      {% endfor %}
+      <!-- Добавьте дополнительные чекбоксы по мере необходимости -->
+      <button type="submit" class="btn btn-primary" name="fil" value="filter">Применить фильтры</button>
+    </form>
+  </div>
+</div>
+{% endblock text %}

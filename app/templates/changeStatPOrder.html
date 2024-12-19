@@ -1,0 +1,63 @@
+{% extends 'menuBarBase.html'%}
+
+{% block text%}
+
+{% for info in information.info%}
+<div class="col-md-7 col-lg-8">
+   <h4 class="mb-3">Оформление заказа</h4>
+     <form action="" method="POST">
+       {{form.hidden_tag()}}
+       <div class="row g-3">
+         <div class="col-sm-6">
+           <label for="" class="form-label">Имя</label>
+           <input class="form-control" value="{{ info.person_name }}" {{ form.name() }}
+         </div>
+         <div class="col-sm-6">
+           <label for="" class="form-label">Фамилия</label>
+           <input class="form-control" value="{{ info.person_surname }}" {{ form.surname() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label">Email <span class="text-body-secondary">(на него будет осуществляться отправка чека)</span></label>
+           <input class="form-control" value="{{ info.person_email }}" {{ form.email() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label">Телефон</label>
+           <input class="form-control" value="{{ info.person_phone }}" {{ form.phone() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label">Адресс</label>
+           <input class="form-control" value="{{ info.person_adress }}" {{ form.adress() }}
+         </div>
+         <div class="col-md-5">
+           <label for="{{ form.town.id }}" class="form-label">Город</label>
+           <p>{{ form.town() }}</p>
+         </div>
+         <div class="col-12">
+            <label for="" class="form-label">Заказ</label>
+            <input class="form-control" value="{{ info.order_text }}" {{ form.order_text() }}
+          </div>
+          <div class="col-12">
+            <label for="" class="form-label">Цена заказа</label>
+            <input class="form-control" value="{{ info.order_price }}" {{ form.price() }}
+          </div>
+
+         
+       
+       <hr class="my-4">
+       <h4 class="mb-3">Оплата</h4>
+       <p>Оплата производится при получении товара</p>
+       <div class="col-md-12">
+         <label for="{{ form.payment.id }}" class="form-label">Способ оплаты</label>
+           <div class="form-check">
+             {{ form.payment() }}
+             <label class="form-check-label" for="{{ choice }}">{{ label }}</label>
+           </div>
+       </div>
+     </div>
+       {{ form.submit() }}
+     </form>
+   </div>
+ </div>
+</div>
+{% endfor %}
+{% endblock %}

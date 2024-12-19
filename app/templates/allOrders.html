@@ -1,0 +1,68 @@
+{% extends 'menuBarBase.html' %}
+
+{% block text %}
+
+
+<h1>Бронь на столы</h1>
+
+{% for order in information.otable%}
+
+<div class="container mt-5">
+   <div class="row">
+       <div class="col-md-6">
+           <div class="card">
+               <div class="card-body">
+                   <h5 class="card-title">Заказ #{{order.t_order_id}} на столик в ресторане {{order.t_order_rname}} </h5>
+                   <p class="card-text">Заказчик {{order.t_order_fio}}</p>
+                   <p class="card-text">На {{order.t_order_nop}} человека </p>
+                   <p class="card-text">Дата: {{order.t_order_date}} , время: {{order.t_order_time}} </p>
+                   <p class="card-text">Email для отправки чека {{order.t_order_email}} </p>
+               </div>
+            <form action="{{url_for('orderDelete', order_id=order.t_order_id, user_id = user_id)}}" method="POST" class="mt-3">
+                <button class="btn btn-success" type="submit" name="Del" value="Del">Удалить заказ заказа</button>
+            </form>
+            <div class="mt-3">
+            <a href="{{url_for('changeStatOrder', order_id = order.t_order_id, user_id = user_id)}}" ><button class="btn btn-success" type="submit" name="changeOrder" value="changeOrder">Изменить данные заказа</button></a>
+            <form action="{{url_for('sendStatTCheck', fio = order.t_order_fio, date = order.t_order_date, time = order.t_order_time, nop = order.t_order_nop, rname = order.t_order_rname, email = order.t_order_email, user_id = user_id)}}" method="POST">
+                <button class="btn btn-success" type="submit" name="send" value="send">Выслать заказ на почту</button>
+            </form>
+        </div>
+           </div>
+       </div>
+   </div>
+</div>
+{% endfor %}
+
+
+<h1> Заказы паков </h1>
+
+
+{% for order in information.opack%}
+<div class="form-box" style="margin-left: 10px;">
+   <p>Имя: {{ order.person_name }}</p>
+   <p>Фамилия: {{ order.person_surname }}</p>
+   <p>Телефон: {{ order.person_phone }}</p>
+   <p>Адрес: {{ order.person_adress }}</p>
+   <p>Email: {{ order.person_email }}</p>
+   <p>Город: {{ order.person_town }}</p>
+   <p>Заказ: {{ order.order_text}}</p>
+   <p>Цена: {{ order.order_price}}</p>
+   <p>Оплата: {{ order.person_payment}}</p>
+   <p>{{ order.delivery}}</p>
+   <form action="{{ url_for('sendStatCheck', name = order.person_name, surname = order.person_surname,email = order.person_email, total = order.order_price, order = order.order_text, delivery = order.delivery, user_id = user_id) }}" 
+         method="POST">
+      <p><button>Выслать чек на email</button></p>
+    </form>
+    
+    <a href="{{ url_for('changeStatPOrder', order_id = order.order_id, user_id = user_id)}}">
+        <button class="btn btn-success"> Изменить информацию о заказе</button>
+    </a>
+
+    <form action="{{url_for('delStatPOrder', order_id = order.order_id, user_id = user_id)}}" method="post">
+        <button class="btn btn-success" type="submit"> Удалить</button>
+    </form>
+</div>
+
+{% endfor %}
+
+{% endblock %}

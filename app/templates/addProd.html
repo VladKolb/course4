@@ -1,0 +1,31 @@
+{% extends 'menuBarBase.html'%}
+
+
+{% block text %}
+
+<form action="" method="POST">
+{{form.hidden_tag()}}
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Название блюда</label>
+      <input class="form-control" {{ form.product_name() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Тип блюда</label>
+      <input class="form-control" {{ form.product_type() }}
+   </div>
+
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Цена</label>
+      <input class="form-control" {{ form.product_price }}
+   </div>
+
+
+   <p style="margin-top: 10px; margin-left: 10px;">{{ form.submit() }}</p>
+
+</form>
+
+
+
+{% endblock %}

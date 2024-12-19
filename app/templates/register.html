@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="{{url_for('static', filename='reglog.css')}}" rel="stylesheet" >
+  <title>Регистрация</title>
+</head>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form action="" method="POST">
+                  {{ form.hidden_tag() }}
+                    <h2>Регистрация</h2>
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input {{ form.name() }} 
+                        <label for="">Имя:</label>
+                    </div>
+                    <div class="inputbox">
+                     <ion-icon name="mail-outline"></ion-icon>
+                     <input {{ form.email() }} 
+                     <label for="">Email:</label>
+                  </div>
+                    <div class="inputbox">
+                     <ion-icon name="lock-closed-outline"></ion-icon>
+                     <input {{ form.password() }}
+                     <label for="">Пароль:</label>
+                  </div>
+                  <div class="inputbox">
+                    <ion-icon name="call-outline"></ion-icon>
+                    <input {{ form.phone() }}
+                    <label for="">Телефон: </label>
+                </div>
+                    <button type="submit"> Зарегестрироватсья</button>
+                    <div class="register">
+                        <p>Уже есть аккаунт? <a href="{{url_for('login')}}">Вход</a></p>
+                        <p><a href="{{url_for('home')}}">На главную</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

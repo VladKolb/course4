@@ -1,0 +1,40 @@
+{% extends 'menuBarBase.html '%}
+
+{% block text %}
+
+{% for info in information.info%}
+
+<div class="col-md-7 col-lg-8">
+     <form action="{{url_for('changeOrder', order_id = order_id)}}" method="POST">
+       {{form.hidden_tag()}}
+       <div class="row g-3">
+         <div class="col-sm-6">
+           <label for="" class="form-label">Имя  Фамилия Отчество</label>
+           <input class="form-control" value="{{ info.t_order_fio}}" {{ form.t_order_fio() }}
+         </div>
+         <div class="col-sm-6">
+           <label for="" class="form-label">На какое количество человек</label>
+           <input class="form-control" value="{{ info.t_order_nop}}" {{ form.t_order_nop() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label"> На какую дату</label>
+           <input class="form-control" value="{{ info.t_order_date}}" {{ form.t_order_date() }}
+         </div>
+         <div class="col-12">
+           <label for="" class="form-label">На какое время</label>
+           <input class="form-control" value="{{ info.t_order_time }}" {{ form.t_order_time() }}
+         </div>
+         <div class="col-12">
+            <label for="" class="form-label">Email <span class="text-body-secondary">(на него будет осуществляться отправка чека)</span></label>
+            <input class="form-control" value="{{ info.t_order_email}}" {{ form.email() }}
+         </div>
+
+       {{form.submit()}}
+     </form>
+   </div>
+ </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

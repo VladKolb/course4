@@ -1,0 +1,101 @@
+{% extends 'menuBarBase.html '%}
+
+{% block text %}
+
+{% if cart_check %}
+  <div class="container" style="margin-top: 10px; margin-bottom: 10px;">
+      <div class="row g-5">
+       <div class="col-md-5 col-lg-4 order-md-last">
+         <h4 class="d-flex justify-content-between align-items-center mb-3">
+           <span class="text-primary">Корзина</span>
+           <span class="badge bg-primary rounded-pill">{{ cart.count }}</span>
+         </h4>
+
+         {% for cart in cart.cart%}
+
+         <ul class="list-group mb-3">
+           <li class="list-group-item d-flex justify-content-between lh-sm">
+             <div>
+               <h6 class="my-0">{{cart.product_name}} </h6>
+               <small class="text-body-secondary">Brief description</small>
+             </div>
+             <span class="text-body-secondary">{{cart.product_price}}</span>
+           </li>
+           <a href="{{url_for('delite_from_cart', id = cart.product_id, price = cart.product_price)}}"><button class="btn btn-outline-secondary" style="width: 400px;"> - </button></a>
+         </ul>
+ 
+         {% endfor %}
+
+         <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>{{cart.all_price}}</strong>
+          </li>
+       </div>
+      
+      
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Оформление заказа</h4>
+        <form action="" method="POST">
+          {{form.hidden_tag()}}
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="" class="form-label">Имя</label>
+              <input class="form-control" {{ form.name() }}
+            </div>
+            <div class="col-sm-6">
+              <label for="" class="form-label">Фамилия</label>
+              <input class="form-control" {{ form.surname() }}
+            </div>
+            <div class="col-12">
+              <label for="" class="form-label">Email <span class="text-body-secondary">(на него будет осуществляться отправка чека)</span></label>
+              <input class="form-control" {{ form.email() }}
+            </div>
+            <div class="col-12">
+              <label for="" class="form-label">Телефон</label>
+              <input class="form-control" {{ form.phone() }}
+            </div>
+            <div class="col-12">
+              <label for="" class="form-label">Адресс</label>
+              <input class="form-control" {{ form.adress() }}
+            </div>
+            <div class="col-md-5">
+              <label for="{{ form.town.id }}" class="form-label">Город</label>
+              <p>{{ form.town() }}</p>
+            </div>
+
+            
+          
+          <hr class="my-4">
+          <h4 class="mb-3">Оплата</h4>
+          <p>Оплата производится при получении товара</p>
+          <div class="col-md-12">
+            <label for="{{ form.payment.id }}" class="form-label">Способ оплаты</label>
+              <div class="form-check">
+                {{ form.payment() }}
+                <label class="form-check-label" for="{{ choice }}">{{ label }}</label>
+              </div>
+          </div>
+        </div>
+          {{ form.submit() }}
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+{%else%}
+
+<h1>Корзина пуста</h1>
+
+{% endif %}
+
+{% endblock text%}
+
+
+
+<!-- {% for cart in cart.cart%}
+
+<h1>{{cart.product_name}}</h1>
+<h1>{{cart.product_price}}</h1>
+
+{% endfor %} -->

@@ -1,0 +1,111 @@
+{% extends 'menuBarBase.html'%}
+
+{% block text %}
+
+<table>
+   <thead>
+      <tr>
+         <th>Имя</th>
+         <th>Телефон</th>
+         <th>Адрес</th>
+         <th>Email</th>
+         <th>Количество заказов</th>
+         <th>Последний заказ</th>
+         <th>Статус</th>
+         <th>
+            <form action="{{url_for('exelImport')}}" method="POST">
+               <button>Импортировать в Ecxel</button>
+            </form>
+         </th>
+      </tr>
+   </thead>
+   <tbody>
+
+{% for info in information.info %}
+
+<tr>
+   <td>{{ info.name }}</td>
+   <td>{{ info.phone }}</td>
+   <td>{{ info.adress }}</td>
+   <td>{{ info.email }}</td>
+   <td>{{ info.order_counter }}</td>
+   <td>{{ info.last_order }}</td>
+   <td>{{ info.status }}</td>
+   <td>
+      <form method="POST" action="{{ url_for('setAdmin', user_id = info.id, name = info.name, status = info.status) }}">
+         {{ form.hidden_tag() }}
+         <label>
+         <input type="checkbox" {% if info.status == 'admin' %} checked {% endif %} {{form.checker()}} 
+            Администратор
+         </label>
+         {{ form.submit() }}
+      </form>
+   </td>
+   <td>
+      <a href="{{url_for('orderStatistic', user_id = info.id)}}"><button class="btn btn-primary"> Посмотреть заказы</button></a>
+   </td>
+   
+</tr>
+
+
+{% endfor %}
+
+   </tbody>
+</table>
+
+<canvas id="myChart" width="400" height="100"></canvas>
+
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+
+    var data = {
+        labels: {{ clients | tojson }},
+        datasets: [{
+            label: 'Кол-во заказов',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: {{ orders | tojson }}
+        }]
+    };
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    <script>
+      setTimeout(function() {
+        var flashes = document.querySelector('.flashes');
+        if (flashes) {
+          flashes.remove();
+        }
+      }, 2000);  // 5000 миллисекунд (5 секунд)
+    </script>
+  {% endif %}
+{% endwith %}
+
+{% endblock text%}
+
+
+
+

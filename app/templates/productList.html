@@ -1,0 +1,64 @@
+{% extends "menuBarBase.html"%}
+
+{% block text %}
+
+{% if session.admin_mode %}
+   <a href="{{url_for('addProd', event_id = event_id, pack_id = pack_id)}}"><p><button class="btn btn-success" style="margin-left: 10px;">Добавить продукт</button></p></a>
+{% endif %}
+
+<h1>
+   <form class="col-12 col-lg-auto mb-3 mb-lg-0" action="" method="POST" style="width: 200px; margin-left: 10px;">
+      <input class="form-control" placeholder="Поиск..." {{ form.search() }}
+      <button class="btn btn-success rounded-pill px-3" type="submit" name="submit" value="submit" style="margin-bottom: 10px;">Найти</button>
+   </form>
+   <form action="{{url_for('accept', pack_id = pack_id, event_id = event_id)}}" method="POST">
+      <button type="submit" class="btn btn-success rounded-pill px-3" style="width: 300px; margin-left: 80%;" name="End" value="End"> Завершить добавление </button>
+   </form>
+   <p>
+      <form action="" method="POST">
+         <button class="btn btn-light rounded-pill px-3 gradient-button" type="submit" name="price" value="TopPrice">Cортировать по убыванию цены</button>
+         <button class="btn btn-light rounded-pill px-3 gradient-button" type="submit" name="price" value="BottomPrice">Cортировать по возрастанию цены</button>
+      </form>
+   </p>
+   <p>
+      <form action="" method="POST">
+        <button class="btn btn-light rounded-pill px-3 gradient-button" type="submit" name="time" value="TopTime">Cортировать по времени готовки(быстро - долго)</button>
+        <button class="btn btn-light rounded-pill px-3 gradient-button" type="submit" name="time" value="BottomTime">Cортировать по времени готовки(долго - быстро)</button>
+      </form>
+   </p>
+</h1>
+   
+<!-- Еще блоки информации -->
+   {% for product in info.prod %}
+   <div class="col-md-6">
+     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+         <strong class="d-inline-block mb-2 text-primary-emphasis">{{product.product_type}}</strong>
+          <h3 class="mb-0">{{product.product_name}}</h3>
+          <p class="my-2">Цена: {{product.product_price}} рублей </p>
+          <form action="{{url_for('addFillin', pack_id = pack_id, event_id = event_id, product_id = product.product_id)}}" method="POST">
+            <div class="input-group mb-3">
+               <span class="input-group-text">Добавить в количестве</span>
+               <input type="number" class="form-control" name="quantity" value="1" min="1" max="10" maxlength="2">
+               <span class="input-group-text">штук</span>
+            </div>
+            <p><button type="submit" style="width: 160px;" name="Add" value="Add"> Добавить </button></p>
+         </form>
+        </div>
+      </div>
+   </div>
+   {% if session.admin_mode %}
+
+ <form action="{{url_for('deleteProd', product_id = product.product_id, event_id = event_id, pack_id = pack_id)}}" method="POST">
+    <p><button class="btn btn-danger" type="submit" style="width: 160px;"> Удалить продукт </button></p>
+ </form>
+
+ <a href="{{url_for('updateProd', product_id = product.product_id, event_id = event_id, pack_id = pack_id)}}"><button class="btn btn-warning">Изменить информацию</button></a>
+{% endif %}
+   <!-- Конец блоков информации -->
+   {% endfor %}
+</div>
+</div>
+
+
+{% endblock %}

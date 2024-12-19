@@ -1,0 +1,25 @@
+{% extends 'menuBarBase.html' %}
+
+
+{% block text %}
+
+{% for order in orders.orders%}
+<div class="form-box" style="margin-left: 10px;">
+   <p>Имя: {{ order.person_name }}</p>
+   <p>Фамилия: {{ order.person_surname }}</p>
+   <p>Телефон: {{ order.person_phone }}</p>
+   <p>Адрес: {{ order.person_adress }}</p>
+   <p>Email: {{ order.person_email }}</p>
+   <p>Город: {{ order.person_town }}</p>
+   <p>Заказ: {{ order.order_text}}</p>
+   <p>Цена: {{ order.order_price}}</p>
+   <p>Оплата: {{ order.person_payment}}</p>
+   <p>{{ order.delivery}}</p>
+   <form action="{{ url_for('sendCheck', name = order.person_name, surname = order.person_surname,email = order.person_email, total = order.order_price, order = order.order_text, delivery = order.delivery) }}" 
+         method="POST">
+      <p><button>Выслать чек на email</button></p>
+   </form>
+</div>
+{% endfor %}
+
+{% endblock text %}

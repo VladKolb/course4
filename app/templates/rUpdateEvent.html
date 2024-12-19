@@ -1,0 +1,38 @@
+{% extends 'menuBarBase.html'%}
+
+
+{% block text %}
+
+{% for info in information.info %}
+
+<form action="" method="POST">
+{{form.hidden_tag()}}
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Название мероприятия</label>
+      <input class="form-control" value="{{ info.r_event_name }}" {{ form.r_event_name() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">День проведения</label>
+      <input class="form-control" value="{{ info.r_event_day }}" {{ form.r_event_day() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Длительность</label>
+      <input class="form-control" value="{{ info.r_event_time }}" {{ form.r_event_time() }}
+   </div>
+
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Описание</label>
+      <input class="form-control" value="{{ info.r_event_description }}" {{ form.r_event_description() }}
+   </div>
+
+   <p style="margin-top: 10px; margin-left: 10px;">{{ form.submit() }}</p>
+
+</form>
+
+{% endfor %}
+
+
+{% endblock %}

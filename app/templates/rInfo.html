@@ -1,0 +1,101 @@
+{% extends 'menuBarBase.html' %}
+
+{% block text %}
+
+{% if session.admin_mode %}
+      <a href="{{url_for('insertREvent', r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name) }}"><p><button style="margin-left: 10px;">Добавить мероприятие</button></p></a>
+{% endif %}
+
+
+
+<div class="container mt-4">
+   <div class="row">
+       <h1> Осталось свободно {{free_tables}} столиков для заказа </h1>
+       {% if free_tables > 0%}
+       <a href="{{url_for('tableOrder', restoraunt_name = restoraunt_name, r_id = r_id)}}" ><button class="btn btn-success"> Заказать столик </button></a>
+       {% endif %}
+       <!-- Блоки информации по горизонтали -->
+       <h2 class="mb-4">Мероприятия этой недели</h2>
+       {% for event in information.events %}
+       <div class="col-md-4">
+         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary-emphasis">{{event.r_event_day}}</strong>
+              <h3 class="mb-0">{{event.r_event_name}}</h3>
+              <div class="mb-1 text-muted">Время проведения: {{event.r_event_time}}
+               <p>Описание: {{event.r_event_description}}</p>
+              </div>
+            </div>
+          </div>
+       </div>
+       {% if session.admin_mode %}
+
+     <form action="{{ url_for('deleteREvent', r_event_id = event.r_event_id, r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name) }}" method="POST">
+        <p><button type="submit" style="width: 160px;"> - </button></p>
+     </form>
+
+     <a href="{{ url_for('updateREvent', r_event_id = event.r_event_id, r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name) }}"><button>Изменить информацию</button></a>
+  {% endif %}
+       {% endfor %}
+       <!-- Конец блоков информации -->
+
+       <!-- Разделительная черта -->
+       <div class="col-12 mt-4 mb-4">
+           <hr>
+       </div>
+       <!-- Конец разделительной черты -->
+
+      {% if session.admin_mode %}
+        <a href="{{url_for('insertRMenu', r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name) }}"><p><button style="margin-left: 10px;">Добавить блюдо</button></p></a>
+      {% endif %}
+
+       <h2 class="mb-4">Меню</h2>
+
+    <h3>
+       <form class="col-12 col-lg-auto mb-3 mb-lg-0" action="" method="POST" style="width: 200px; margin-left: 10px;">
+        <input class="form-control" placeholder="Поиск..." {{ form.search() }}
+        <button class="btn btn-light rounded-pill px-3" type="submit" name="submit" value="submit" style="margin-bottom: 10px;">Найти</button>
+      </form>
+      <p>
+        <form action="{{url_for('rInfo', r_id = r_id, views = views, restoraunt_name = restoraunt_name, free_tables = free_tables)}}" method="POST">
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="price" value="TopPrice">Cортировать по убыванию цены</button>
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="price" value="BottomPrice">Cортировать по возрастанию цены</button>
+        </form>
+      </p>
+        <p>
+          <form action="{{url_for('rInfo', r_id = r_id, views = views, restoraunt_name = restoraunt_name, free_tables = free_tables)}}" method="POST">
+            <button class="btn btn-light rounded-pill px-3" type="submit" name="time" value="TopTime">Cортировать по времени готовки(быстро - долго)</button>
+            <button class="btn btn-light rounded-pill px-3" type="submit" name="time" value="BottomTime">Cортировать по времени готовки(долго - быстро)</button>
+          </form>
+        </p>
+      </h1>
+    </h3>
+       
+    <!-- Еще блоки информации -->
+       {% for menu in information.menu %}
+       <div class="col-md-6">
+         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary-emphasis">Время приготовления: {{menu.cooking_time}} минут</strong>
+              <h3 class="mb-0">{{menu.dish_name}}</h3>
+              <div class="mb-1 text-muted">Описание: {{menu.dish_description}}
+              </div>
+              <p class="my-2">Цена: {{menu.dish_price}} рублей </p>
+            </div>
+          </div>
+       </div>
+       {% if session.admin_mode %}
+
+     <form action="{{ url_for('deleteRMenu', r_menu_id = menu.r_menu_id, r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name) }}" method="POST">
+        <p><button type="submit" style="width: 160px;"> - </button></p>
+     </form>
+
+     <a href="{{ url_for('updateRMenu', r_menu_id = menu.r_menu_id, r_id = r_id, views = views, free_tables = free_tables, restoraunt_name = restoraunt_name)}}"><button>Изменить информацию</button></a>
+  {% endif %}
+       <!-- Конец блоков информации -->
+       {% endfor %}
+   </div>
+</div>
+
+
+{% endblock %}

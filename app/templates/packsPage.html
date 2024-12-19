@@ -1,0 +1,47 @@
+{% extends 'menuBarBase.html'%}
+
+{% block text %}
+
+{% if session.admin_mode %}
+  <a href="{{url_for('addPack', event_id = event_id)}}"><p><button style="margin-left: 10px;">Cоздать пакет</button></p></a>
+  <a href="{{url_for('save_pack_json', event_id = event_id)}}"><p><button style="margin-left: 10px;">Cоздать пакет( скачать его как json файл)</button></p></a>
+  <form action="/uploadJSON" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".json">
+    <p><button type='submit' style="margin-left: 10px;">Cоздать пакет( импортировать json файл )</button></p>
+  </form>
+{% endif %}
+
+
+   <h1 style="margin-left: 10px;"> Пакеты на День рождения </h1>
+
+   {% for pack in info.packs%}
+
+   <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary-emphasis">{{pack.pack_type}}</strong>
+        <h3 class="mb-0">{{pack.pack_name}}</h3>
+        <div class="mb-1 text-muted">
+            На количество человек: {{pack.number_of_people}}
+            <p> Состав: {{pack.pack_fillin}}</p>
+            <p> Цена покупки: {{pack.pack_price}} руб </p>
+        </div>
+        <p class="card-text mb-auto">{{pack.pack_description}}</p>
+        <a href="{{url_for('addToCart', name = pack.pack_name, price = pack.pack_price, id = pack.pack_id, page = info.page, event_id = event_id, )}}">Заказать пакет</a>
+      </div>
+      {% if session.admin_mode %}
+      <form action="{{url_for('pfAdd', pack_id = pack.pack_id, event_id = event_id)}}" method="POST">
+        <p><button class="btn btn-primary" type="submit" style="margin-left: 10px;"> Напольнить пак </button></p>
+      </form>
+      <form action="{{url_for('fillin', pack_id = pack.pack_id, event_id = event_id )}}" method="POST">
+        <p><button class="btn btn-success" type="submit" style="margin-left: 10px;"> Посмотреть содержимое </button></p>
+      </form>
+      <form action="{{url_for('deletePack', event_id = event_id, page = info.page, pack_id = pack.pack_id)}}" method="POST">
+        <p><button type="submit" style="width: 160px; margin-left: 10px;"> - </button></p>
+      </form>
+      <a href=""><button style="margin-left: 10px;">Изменить информацию</button></a>
+      {% endif %}
+   </div>
+   
+   {% endfor %}
+
+{% endblock %}

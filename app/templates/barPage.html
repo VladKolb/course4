@@ -1,0 +1,65 @@
+{% extends "menuBarBase.html" %}
+
+{% block text %}
+<div class="container">
+  <div class="row">
+    <!-- Левая часть экрана -->
+    <div class="col-12 col-md-8">
+      <form class="mb-3" action="" method="POST" style="width: 200px; margin-left: 10px;">
+        <input class="form-control" placeholder="Поиск..." {{ form.search() }}  
+        <button class="btn btn-light rounded-pill px-3" type="submit" name="submit" value="submit" style="margin-bottom: 10px;">Найти</button>
+      </form>
+
+      {% if session.admin_mode %}
+        <a href="{{url_for('insertRest', event_id = event_id) }}"><p><button style="margin-left: 10px;">Добавить ресторан</button></p></a>
+      {% endif %}
+
+      <h1>
+        <!-- Формы для сортировки -->
+        <form action="{{url_for('bar', event_id=event_id)}}" method="POST">
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="rating" value="TopRating">Cортировать по рейтингу(лучший - худший)</button>
+          <button class="btn btn-light rounded-pill px-3" type="submit" name="rating" value="BottomRating">Cортировать по возрастанию цены(худший - лучший)</button>
+        </form>
+      </h1>
+
+      {% for place in information.place %}
+        <!-- Блок с информацией о ресторане -->
+        <div class="col-md-6" style="margin-left: 10px; margin-bottom: 10px;">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary-emphasis">{{place.restoraunt_type}}</strong>
+              <h3 class="mb-0">{{place.restoraunt_name}}</h3>
+              <div class="mb-1 text-muted">Время работы: {{place.scheldue}},
+                Рейтинг: {{place.rating}}
+              </div>
+              <p class="card-text mb-auto">{{place.adress}}</p>
+              
+              <a href="{{url_for('rInfo', r_id = place.restoraunt_id, views = place.r_views, restoraunt_name = place.restoraunt_name, free_tables = place.free_tables)}}" class="stretched-link"></a>
+            </div>
+          </div>
+          {% if session.admin_mode %}
+            <form action="{{ url_for('deleteRest', r_id = place.restoraunt_id, event_id = event_id) }}" method="POST">
+              <p><button type="submit" style="width: 160px;"> - </button></p>
+            </form>
+            <a href="{{ url_for('updateRest', r_id = place.restoraunt_id, event_id = event_id) }}"><button>Изменить информацию</button></a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Правая часть экрана -->
+    <div class="col-12 col-md-4">
+      <form action="{{url_for('bar', event_id=event_id)}}" method="POST">
+        {% for filter in information.filters %}
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="{{filter}}" id="{{filter}}" {% if filter in selected_filters %} checked {% endif %}>
+            <label class="form-check-label" for="{{filter}}">{{filter}}</label>
+          </div>
+        {% endfor %}
+        <!-- Добавьте дополнительные чекбоксы по мере необходимости -->
+        <button type="submit" class="btn btn-primary" name="fil" value="filter">Применить фильтры</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock text %}

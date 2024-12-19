@@ -1,0 +1,45 @@
+{% extends "menuBarBase.html" %}
+
+{% block text%}
+
+{% if session.admin_mode %}
+  <a href="{{url_for('addEvent')}}"><p><button style="margin-left: 10px;">Добавить мероприятие</button></p></a>
+{% endif %}
+
+
+<h1 class="text-center"> Выбирете мероприятие </h1>
+
+<div class="container mt-5">
+  <div class="row">
+
+    {% for event in information.events %}
+    
+      <div class="col-md-4 mb-4">
+          <div class="card">
+              <div class="card-body text-center">
+                  <h5 class="card-title mb-4">{{event.type_of_event}}</h5>
+                  <form class="d-inline" action="{{url_for('packsPage', event_id = event.event_id)}}" method="POST">
+                    <button type="submit" class="btn btn-primary">Дома</button>
+                  </form>
+                  <form class="d-inline" action="{{url_for('bar', event_id = event.event_id)}}" method="POST">
+                    <button type="submit" class="btn btn-primary mr-2">Вне дома</button>
+                  </form>
+              </div>
+          </div>
+          {% if session.admin_mode %}
+          <form action="{{url_for('deleteEvent', event_id = event.event_id)}}" method="POST">
+            <p><button type="submit" style="width: 160px;"> - </button></p>
+          </form>
+          {% endif %}
+      </div>
+    
+    {% endfor %}
+      
+
+  </div>
+</div>
+
+{% endblock text%}
+
+
+

@@ -1,0 +1,50 @@
+{% extends 'menuBarBase.html'%}
+
+
+{% block text %}
+
+<form action="" method="POST">
+{{form.hidden_tag()}}
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Название ресторана</label>
+      <input class="form-control" {{ form.r_name() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Тип ресторана</label>
+      <input class="form-control" {{ form.r_type() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Рассписание</label>
+      <input class="form-control" {{ form.r_scheldue() }}
+   </div>
+
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Рейтинг</label>
+      <input class="form-control" {{ form.r_rating() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Адрес</label>
+      <input class="form-control" {{ form.r_adress() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Контакты</label>
+      <input class="form-control" {{ form.r_contact() }}
+   </div>
+
+   <div class="col-sm-6" style="margin-top: 10px; margin-left: 10px;">
+      <label for="" class="form-label">Сайт</label>
+      <input class="form-control" {{ form.r_site() }}
+   </div>
+
+   <p style="margin-top: 10px; margin-left: 10px;">{{ form.submit() }}</p>
+
+</form>
+
+
+
+{% endblock %}
